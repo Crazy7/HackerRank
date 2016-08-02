@@ -41,8 +41,6 @@ namespace HR_SansaAndXOR
                 for (int i = 0; i < elementCount; i += 2)
                 {
                     xor ^= collection[i];
-
-                    Console.WriteLine("V : {0}, r : {1}", collection[i], xor);
                 }
             }
 
