@@ -10,32 +10,28 @@ namespace HR_SansaAndXOR
         {
             var caseCount = int.Parse(Console.ReadLine());
 
-            var inputs = new List<int[]>(caseCount);
+            var cases = new List<int[]>(caseCount);
             for (var i = 0; i < caseCount; i++)
             {
-                var curCount = int.Parse(Console.ReadLine());
+                //ignore count argument
+                Console.ReadLine();
                 var curArray = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
 
-                inputs.Add(curArray);
+                cases.Add(curArray);
             }
 
-            foreach (var item in inputs)
+            foreach (var c in cases)
             {
-                ProcessSingle(item);
+                var r = Resolve(c);
+                Console.WriteLine(r);
             }
-        }
-
-        private static void ProcessSingle(int[] array)
-        {
-            var r = Resolve(array);
-
-            Console.WriteLine(r);
         }
 
         private static int Resolve(IList<int> collection)
         {
             var elementCount = collection.Count;
             var xor = 0;
+
             if ((elementCount & 1) == 1)
             {
                 for (int i = 0; i < elementCount; i += 2)
