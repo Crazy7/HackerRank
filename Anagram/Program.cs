@@ -36,6 +36,8 @@ namespace ConsoleApplication
                 var countInAnother = 0;
                 if(bStatics.TryGetValue(p.Key, out countInAnother))
                 {
+                    //for characters exist in both of a and b, 
+                    //if the count of char in a is less than count in b, just ignore it, because the Lengths between 2 arrays are equal 
                     diffCount+= Math.Max(0, p.Value - countInAnother);
                 }
                 else
