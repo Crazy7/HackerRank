@@ -6,59 +6,62 @@ typedef struct node
     struct node *left;
     struct node *right;
     int ht;
-}node;
+} node;
 
 node *create_node(int val)
 {
     node *pNew = new node;
     pNew->val = val;
-    pNew->ht  = 0;
+    pNew->ht = 0;
     pNew->left = pNew->right = nullptr;
-    
+
     return pNew;
 }
 
 int height(node *p)
 {
-    if(!p) return -1;
+    if (!p)
+        return -1;
     return p->ht;
 }
 
 int calcHeight(node *p)
 {
-    if (!p) return 0;
+    if (!p)
+        return 0;
     return 1 + max(height(p->left), height(p->right));
 }
 
 node *right_rotate(node *p)
 {
-    node *pOrigRoot = p;
+    node *oldRoot = p;
     node *root = p->left;
-    pOrigRoot->left = root->right;
-    root->right = pOrigRoot;
-    
-    pOrigRoot->ht = calcHeight(pOrigRoot);
+    oldRoot->left = root->right;
+    root->right = oldRoot;
+
+    oldRoot->ht = calcHeight(oldRoot);
     root->ht = calcHeight(root);
-    
+
     return root;
 }
 
 node *left_rotate(node *p)
 {
-    node *pOrigRoot = p;
+    node *oldRoot = p;
     node *root = p->right;
-    pOrigRoot->right = root->left;
-    root->left = pOrigRoot;
-    
-    pOrigRoot->ht = calcHeight(pOrigRoot);
+    oldRoot->right = root->left;
+    root->left = oldRoot;
+
+    oldRoot->ht = calcHeight(oldRoot);
     root->ht = calcHeight(root);
-    
+
     return root;
 }
 
 int balance_factor(node *p)
 {
-    if (!p) return 0;
+    if (!p)
+        return 0;
     return height(p->left) - height(p->right);
 }
 
@@ -68,10 +71,10 @@ node *balance(node *p)
 
     if (!p || abs(w) < 2)
         return p;
-    
+
     if (w > 0)
     {
-        if(balance_factor(p->left) < 0)
+        if (balance_factor(p->left) < 0)
         {
             p->left = left_rotate(p->left);
         }
@@ -79,21 +82,21 @@ node *balance(node *p)
     }
     else
     {
-        if(balance_factor(p->right) > 0)
+        if (balance_factor(p->right) > 0)
         {
             p->right = right_rotate(p->right);
         }
         return left_rotate(p);
     }
-    
+
     return p;
 }
 
-node * insert(node * root,int val)
+node *insert(node *root, int val)
 {
     if (val < root->val)
     {
-        if(!root->left)
+        if (!root->left)
         {
             root->left = create_node(val);
         }
@@ -104,7 +107,7 @@ node * insert(node * root,int val)
     }
     else
     {
-        if(!root->right)
+        if (!root->right)
         {
             root->right = create_node(val);
         }
@@ -115,6 +118,6 @@ node * insert(node * root,int val)
     }
 
     root->ht = calcHeight(root);
-    
+
     return balance(root);
 }
