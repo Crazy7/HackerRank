@@ -24,29 +24,10 @@ def computeLargestArea(hist, N):
         if not stack or hist[stack[-1]] <= hist[idx]:
             stack.append(idx)
             idx += 1
-
-            print "stack : " + str(stack[-1])
         else:
-             
-            # height_idx = stack.pop()
-             
-            # depth = idx
-            # if stack:
-            #     depth = idx - stack[-1] - 1
-             
-            # area = hist[height_idx] * depth
-            # max_area = max(area, max_area)
             max_area = computeStack(hist, stack, max_area, idx)
       
     while stack:
-        # height_idx = stack.pop()
-             
-        # depth = idx
-        # if stack:
-        #     depth = idx - stack[-1] - 1
-             
-        # area = hist[height_idx] * depth
-        # max_area = max(area, max_area)
         max_area = computeStack(hist, stack, max_area, idx)
              
     return max_area
