@@ -2,39 +2,58 @@
 using System.Linq;
 class Solution
 {
-
     static void Main(String[] args)
     {
-        string[] tokens_n1 = Console.ReadLine().Split(' ');
-        int n1 = Convert.ToInt32(tokens_n1[0]);
-        int n2 = Convert.ToInt32(tokens_n1[1]);
-        int n3 = Convert.ToInt32(tokens_n1[2]);
-        string[] h1_temp = Console.ReadLine().Split(' ');
-        int[] h1 = ConvertAll(h1_temp, Int32.Parse);
-        string[] h2_temp = Console.ReadLine().Split(' ');
-        int[] h2 = ConvertAll(h2_temp, Int32.Parse);
-        string[] h3_temp = Console.ReadLine().Split(' ');
-        int[] h3 = ConvertAll(h3_temp, Int32.Parse);
+        Console.ReadLine(); //skip first line;
 
-        var sum1 = h1.Sum();
-        var sum2 = h2.Sum();
-        var sum3 = h3.Sum();
+        var h1 = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+        var h2 = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+        var h3 = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
 
-        var i1 = 0; var i2 = 0; var i3 = 0;
+        var stacks = new[]{ h1, h2, h3}.Select(_=> new MyStack(_)).ToArray();
+        MyStack.PopAll(stacks);
+
+        Console.WriteLine(stacks.First().Sum);
+    }
+}
+
+class MyStack
+{
+    private int[] _data;
+
+    private int _index;
+
+    public int Sum { get; private set; }
+
+    public MyStack(int[] data)
+    {
+        _data = data ?? new int[0];
+        _index = 0;
+
+        Sum = _data.Sum();
+    }
+
+    public void Pop()
+    {
+        Sum -= _data[_index++];
+    }
+
+    public static void PopAll(MyStack[] stacks)
+    {
+        if (!stacks.Any() || stacks.Length == 1) return;
 
         while (true)
         {
-            if (sum1 > sum2 || sum1 > sum3) sum1 -= h1[i1++];
-            else if (sum2 > sum1 || sum2 > sum3) sum2 -= h2[i2++];
-            else if (sum3 > sum1 || sum3 > sum2) sum3 -= h3[i3++];
-            else break;
+            for (var i = 0; i < stacks.Length; i++)
+            {
+                var curStack = stacks[i];
+                if (stacks.Where((v, _i) => _i != i && curStack.Sum > v.Sum).Any())
+                {
+                    curStack.Pop();
+                }
+            }
+
+            if (stacks.All(_ => _.Sum == stacks.First().Sum)) break;
         }
-
-        Console.WriteLine(sum1);
-    }
-
-    static int[] ConvertAll(string[] source, Func<string, int> func)
-    {
-        return source.Select(func).ToArray();
     }
 }
