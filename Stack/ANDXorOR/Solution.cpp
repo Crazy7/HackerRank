@@ -10,12 +10,12 @@ using namespace std;
 int main() {
     int n; cin >> n;
     vector<int> in(n);
+    
     for(int i = 0; i < n; i ++)
         cin >> in[i];
     
     int ret = 0;
     {
-        //in.push_back(0); 
         stack<int> stk;
         for (int i = 0; i <= in.size(); i++)
         {
@@ -29,12 +29,10 @@ int main() {
                 if (!stk.empty())
                 {
                     ret = std::max(ret, (lastV ^ stk.top()));            
-                    //cout << lastV << "-" << stk.top() << "=" << (lastV ^ stk.top()) << endl;
                 }
                 i--;
             }
         }
-        //in.pop_back();
     }
     {
         
